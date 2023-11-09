@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+gunicorn
+sqlalchemy
+databases
+aiomysql
+mysqlclient
+orm
+pydantic-settings
+python-dotenv
