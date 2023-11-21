@@ -20,8 +20,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+api_keys = os.environ.get('VALID_API_KEYS')
 
-VALID_API_KEYS = ["your_api_key_1", "your_api_key_2"]
+VALID_API_KEYS = api_keys
 
 
 # Custom exception handlers
