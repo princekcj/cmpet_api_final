@@ -1,4 +1,3 @@
-import os
 from urllib.request import Request
 
 from fastapi import FastAPI, HTTPException
@@ -6,9 +5,11 @@ from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 import os
+
 
 from db import database
 
@@ -20,10 +21,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 api_keys = os.environ.get('VALID_API_KEYS')
-
 VALID_API_KEYS = api_keys
-
 
 # Custom exception handlers
 @app.exception_handler(HTTPException)
@@ -62,7 +62,7 @@ async def root():
 @app.get("/get_data")
 async def get_data():
     try:
-        query = "SELECT * FROM ingredients_table;"
+        query = "SELECT * FROM ingredient_master;"
         results = await database.fetch_all(query)
 
         serialized_results = [dict(result) for result in results]
@@ -74,7 +74,7 @@ async def get_data():
 @app.get("/get_data/{pet}")
 async def get_pet(pet):
     try:
-        query = f"SELECT id, name, description, {pet}, {pet}_description FROM ingredients_table WHERE {pet} = 0 OR {pet} = 1 OR {pet} = 2 OR {pet} = 3;"
+        query = f"SELECT id, name, description, {pet}, {pet}_description FROM ingredient_master WHERE {pet} = 0 OR {pet} = 1 OR {pet} = 2 OR {pet} = 3;"
         results = await database.fetch_all(query)
 
         serialized_results = [dict(result) for result in results]
@@ -86,7 +86,7 @@ async def get_pet(pet):
 @app.get("/search_by_name/{name}")
 async def search_by_name(name: str):
     try:
-        query = "SELECT * FROM ingredients_table WHERE name LIKE :name;"
+        query = "SELECT * FROM ingredient_master WHERE name LIKE :name;"
         values = {"name": f"%{name}%"}
         results = await database.fetch_all(query=query, values=values)
 
@@ -99,7 +99,7 @@ async def search_by_name(name: str):
 async def search_by_names(names: str):
     try:
         names_list = names.split(',')
-        query = "SELECT * FROM ingredients_table WHERE name IN :names;"
+        query = "SELECT * FROM ingredient_master WHERE name IN :names;"
         values = {"names": tuple(names_list)}
         results = await database.fetch_all(query=query, values=values)
 
