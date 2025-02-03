@@ -86,8 +86,8 @@ async def get_pet(pet):
 @app.get("/search_by_name/{name}")
 async def search_by_name(name: str):
     try:
-        query = "SELECT * FROM ingredient_master WHERE name LIKE :name;"
-        values = {"name": f"%{name}%"}
+        query = "SELECT * FROM ingredient_master WHERE name = :name;"
+        values = {"name": name}
         results = await database.fetch_all(query=query, values=values)
 
         serialized_results = [dict(result) for result in results]
