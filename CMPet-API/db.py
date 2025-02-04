@@ -13,7 +13,7 @@ while True:
 
         metadata = sqlalchemy.MetaData()
 
-        engine = sqlalchemy.create_engine(DATABASE_URL, encoding='utf-8', pool_size=3, max_overflow=0, connect_args={'connect_timeout': 120},
+        engine = sqlalchemy.create_engine(DATABASE_URL, pool_size=3, max_overflow=0, connect_args={'connect_timeout': 120},
                                           pool_pre_ping=True, echo=True)
 
         break  # Break the loop if the connection is successful
